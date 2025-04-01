@@ -1,0 +1,23 @@
+* {
+    background-color: aliceblue;
+}
+
+#submitBtn:hover {
+    color: blue;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+th {
+    cursor: pointer;
+}
+td {
+    padding: 3px 12px;
+}
+/*
+form {
+    margin-bottom: 0px;
+} */

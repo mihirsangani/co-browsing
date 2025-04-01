@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>rrweb-snapshot Example</title>
+  </head>
+  <body>
+    <div id="my-element">
+      <p>This is my element.</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/rrweb-snapshot@2.0.0-alpha.4/+esm"></script>
+    <script>
+      const element = document.getElementById('my-element');
+      const snapshot = rrwebSnapshot.takeSnapshot(element);
+
+      console.log(snapshot);
+    </script>
+  </body>
+</html>

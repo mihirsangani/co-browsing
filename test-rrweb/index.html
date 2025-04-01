@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example HTML code with rrweb and custom IDs</title>
+  
+  </head>
+  <body>
+    <h1 data-rr-id="88888888">Heading 1</h1>
+    <button onclick="restartRRWeb()">delete</button>
+    <script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.js"></script>
+    <script>
+      const events = [];
+      
+    //   this function will read attribute data-rr-id and apply as a RRWeb Id
+    //   if node is tag and they don't have data-rr-id then we will make and add in html and in rrweb object then we will assign 
+      const applyIDresecursive = (obj) => {
+        for(var i=0;i<obj.length;i++){
+            // add into id if data-rr-id
+            if(obj[i].attributes && obj[i]['tagName'] && obj[i].attributes['data-rr-id']){
+                obj[i].id=obj[i].attributes['data-rr-id']
+                // console.log(obj[i].attributes['data-rr-id'])
+            }
+            // generate data-rr-id in html and in rrweb object
+            else if( obj[i]['tagName'] ){
+                // obj[i].id=obj[i].attributes['data-rr-id']
+                // obj[i].setAttribute('id123','132131231313131')
+                // console.log(obj[i].attributes['data-rr-id'])
+            }
+
+            if(obj[i].childNodes)
+                obj[i].childNodes=applyIDresecursive(obj[i].childNodes)
+        }
+        return obj;
+      }
+
+      const packFn = (event) => {
+        // return event
+
+        if ( event.type === 2) {
+            const node = event.data.node;
+            // node.setAttribute('id123',"5164645646464");
+            event.data.node=(applyIDresecursive([event.data.node]))[0]
+
+        }
+
+ 
+        // if ((typeof event.type === 'string' && event.type === 'incrementalSnapshot') || (typeof event.type === 'number' && event.type === 3)) {
+        //   const source = event.data.source;
+        //   source['id']=  Math.floor(Math.random() * 10000000000);
+        //   source['id-parrent']=  Math.floor(Math.random() * 10000000000);
+        // //   if (source.nodeType === Node.ELEMENT_NODE && source.hasAttribute('data-rr-id')) {
+        // //     source.setAttribute('id', Math.floor(Math.random() * 10000000000))
+        // //   }
+        // } else if ((typeof event.type === 'string' && event.type === 'fullsnapshot') || (typeof event.type === 'number' && event.type === 2)) {
+        //   const node = event.data.node;
+        //   node['id']=  Math.floor(Math.random() * 10000000000);
+        //   node['id-parrent']=  Math.floor(Math.random() * 10000000000);
+        // //   if (node.type === Node.ELEMENT_NODE && node.hasAttribute('data-rr-id')) {
+        // //     node.setAttribute('id',  Math.floor(Math.random() * 10000000000));
+        // //   }
+        // }
+        return event;
+      };
+      var recorder;
+      function restartRRWeb(){
+        recorder=rrweb.record({
+          emit(event) {
+            events.push(event);
+            console.log(event);
+          },
+          packFn,
+        });
+      }
+      restartRRWeb();
+      
+    </script>
+  </body>
+</html>
